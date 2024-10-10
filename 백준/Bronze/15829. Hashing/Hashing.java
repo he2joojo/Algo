@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.math.BigInteger;
 
 public class Main {
 
@@ -12,17 +13,20 @@ public class Main {
         int n = Integer.parseInt(br.readLine());
         String str = br.readLine();
 
-        final int R = 31;
-        final int M = 1234567891;
+        BigInteger r = BigInteger.valueOf(31);
+        BigInteger m = BigInteger.valueOf(1234567891);
 
         // 2. 로직
-        long ans = 0;
+        BigInteger ans = BigInteger.valueOf(0);
 
         for (int i = 0; i < n; i++) {
-            ans += (str.charAt(i) - 'a' + 1) * Math.pow(R, i);
+            BigInteger tmp = BigInteger.valueOf(str.charAt(i) - 'a' + 1);
+            tmp = tmp.multiply(r.pow(i));
+            tmp = tmp.mod(m);
+            ans = ans.add(tmp);
         }
 
         // 3. 출력
-        System.out.println(ans % M);
+        System.out.println(ans.mod(m));
     }
 }
