@@ -86,7 +86,8 @@ public class Main {
 				tmp = dist[node.num] + next.w;
 				if (tmp < dist[next.num]) { // 새로운 최단경로를 찾았다면
 					dist[next.num] = tmp;
-					pq.offer(new Node(next.num, tmp));
+					next.w = tmp;
+					pq.offer(next);
 				}
 			}
 		}
