@@ -24,10 +24,11 @@ public class Main {
 		input();
 
 		// 2. 로직
-		for (int i = 1; i <= str1.length(); i++) { // lcs 길이 구하기 위해 dp배열 채우기
+		for (int i = 1; i <= str1.length(); i++) { // LCS 길이 찾기
 			for (int j = 1; j <= str2.length(); j++) {
 				if (str1.charAt(i - 1) == str2.charAt(j - 1)) {
 					dp[i][j] = dp[i - 1][j - 1] + 1;
+//					break;
 				} else {
 					dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
 				}
@@ -35,21 +36,21 @@ public class Main {
 		}
 
 		StringBuilder sb = new StringBuilder();
-		int i = str1.length();
-		int j = str2.length();
+		int idx1 = str1.length();
+		int idx2 = str2.length();
 
-		while (i > 0 && j > 0) { // lcs 단어 구하기
-			if (str1.charAt(i - 1) == str2.charAt(j - 1)) {
-				sb.append(str1.charAt(i - 1));
-				i--;
-				j--;
-			} else if (dp[i - 1][j] > dp[i][j - 1]) {
-				i--;
+		while (idx1 > 0 && idx2 > 0) {
+			if (str1.charAt(idx1 - 1) == str2.charAt(idx2 - 1)) {
+				sb.append(str1.charAt(idx1 - 1));
+				idx1--;
+				idx2--;
+			} else if (dp[idx1 - 1][idx2] > dp[idx1][idx2 - 1]) {
+				idx1--;
 			} else {
-				j--;
+				idx2--;
 			}
 		}
-
+		
 		// 3. 출력
 		System.out.println(dp[str1.length()][str2.length()]);
 		System.out.println(sb.reverse().toString());
