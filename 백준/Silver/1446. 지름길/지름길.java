@@ -10,8 +10,8 @@ public class Main {
     static int N;
     static int D;
 
-    static List<int[]> ways;
-    static int result;
+    static List<int[]>[] ways; // i까지 가는 방법, 비용
+    static int[] distance;
 
     public static void main(String[] args) throws IOException {
 
@@ -22,58 +22,42 @@ public class Main {
         N = Integer.parseInt(st.nextToken());
         D = Integer.parseInt(st.nextToken());
 
-        ways = new ArrayList<>();
+        ways = new ArrayList[D + 1];
+        distance = new int[D + 1];
+
+        for (int i = 1; i <= D; i++) {
+            distance[i] = i;
+            ways[i] = new ArrayList<>();
+        }
+
 
         for (int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine());
             int from = Integer.parseInt(st.nextToken());
             int to = Integer.parseInt(st.nextToken());
-            int d = Integer.parseInt(st.nextToken());
+            int cost = Integer.parseInt(st.nextToken());
 
-            if (to > D || (to - from) <= d) { // 도착지를 넘어가거나 or 지름길이 더 긴 경우
+            if (to > D || (to - from) <= cost) { // 도착지를 넘어가거나 or 지름길이 더 긴 경우
                 continue;
             }
 
-            ways.add(new int[]{from, to, d});
+            ways[to].add(new int[]{from, cost});
         }
 
         // 2. 로직
-        ways.sort((a, b) -> {
-            if (a[0] != b[0]) return a[0] - b[0];
 
-            if (a[1] != b[1]) return a[1] - b[1];
+        for (int i = 1; i <= D; i++) {
+            distance[i] = distance[i - 1] + 1;
 
-            return a[2] - b[2];
-        });
+            for (int j = 0; j < ways[i].size(); j++) {
+                int from = ways[i].get(j)[0];
+                int cost = ways[i].get(j)[1];
 
-        result = D;
-
-        dfs(0, 0, 0);
+                distance[i] = Math.min(distance[i], distance[from] + cost);
+            }
+        }
 
         // 3. 출력
-        System.out.println(result);
-    }
-
-    static void dfs(int now, int idx, int tmp) {
-        if (now == D) {
-            result = Math.min(result, tmp);
-            return;
-        }
-
-        if (idx >= ways.size()) {
-            tmp += (D - now);
-            result = Math.min(result, tmp);
-            return;
-        }
-
-        // 선택 o
-        int[] way = ways.get(idx);
-
-        if (way[0] >= now) {
-            dfs(way[1], idx + 1, tmp + way[2] + (way[0] - now));
-        }
-
-        // 선택 x
-        dfs(now, idx + 1, tmp);
+        System.out.println(distance[D]);
     }
 }
