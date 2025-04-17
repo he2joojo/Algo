@@ -41,14 +41,12 @@ public class Main {
                 dp.addLast(j);
 
                 if (dp.size() == k) {
-                    int start = dp.peekFirst();
+                    int start = dp.pollFirst();
                     int end = j;
                     int len = end - start + 1;
 
                     min = Math.min(min, len);
                     max = Math.max(max, len);
-                    
-                    dp.pollFirst();
                 }
 
             }
