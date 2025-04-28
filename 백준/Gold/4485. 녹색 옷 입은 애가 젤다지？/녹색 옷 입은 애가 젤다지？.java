@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayDeque;
+import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
@@ -41,7 +42,7 @@ public class Main {
                 }
             }
 
-            Queue<int[]> que = new ArrayDeque<>();
+            Queue<int[]> que = new PriorityQueue<>((a, b) -> a[2] - b[2]);
             que.offer(new int[] { 0, 0, graph[0][0] });
 
             while (!que.isEmpty()) {
@@ -50,6 +51,10 @@ public class Main {
                 int c = cur[1];
                 int fee = cur[2];
 
+                if (r == N - 1 && c == N - 1) {
+                    sb.append("Problem ").append(idx).append(": ").append(fee).append("\n");
+                }
+
                 for (int[] dir : directions) {
                     int nr = r + dir[0];
                     int nc = c + dir[1];
@@ -57,15 +62,14 @@ public class Main {
                     if (!isValid(nr, nc))
                         continue;
 
-                    if (cost[nr][nc] > fee + graph[nr][nc]) {
-                        int tmp = fee + graph[nr][nc];
-                        cost[nr][nc] = tmp;
-                        que.offer(new int[] { nr, nc, tmp });
+                    int newCost = fee + graph[nr][nc];
+
+                    if (cost[nr][nc] > newCost) {
+                        cost[nr][nc] = newCost;
+                        que.offer(new int[] { nr, nc, newCost });
                     }
                 }
             }
-
-            sb.append("Problem ").append(idx).append(": ").append(cost[N - 1][N - 1]).append("\n");
         }
 
         // 3. 출력
