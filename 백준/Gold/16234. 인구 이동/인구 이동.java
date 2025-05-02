@@ -59,13 +59,13 @@ public class Main {
                         total = 0;
                         dfs(i, j); // 국경선 열기기
 
-                        for (int k = 0; k < list.size(); k++) { // 인구 이동
-                            int r = list.get(k)[0];
-                            int c = list.get(k)[1];
-                            graph[r][c] = total / list.size();
-                        }
-
                         if (list.size() > 1) {
+                            int newPopulation = total / list.size();
+                            for (int k = 0; k < list.size(); k++) { // 인구 이동
+                                int r = list.get(k)[0];
+                                int c = list.get(k)[1];
+                                graph[r][c] = newPopulation;
+                            }
                             flag = true;
                         }
                     }
