@@ -1,36 +1,43 @@
+import java.util.ArrayDeque;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Stack;
 
 class Solution {
-	public int solution(String s) {
-		StringBuilder sb = new StringBuilder(s);
-		int answer = 0;
 
-		Map<Character, Character> map = new HashMap<>();
+	static Map<Character, Character> map;
+
+	public int solution(String s) {
+
+		Queue<Character> que = new ArrayDeque<>();
+		for (char ch : s.toCharArray())
+			que.offer(ch);
+
+		map = new HashMap<>();
 		map.put('}', '{');
 		map.put(']', '[');
 		map.put(')', '(');
 
+		int answer = 0;
+
 		for (int i = 0; i < s.length(); i++) {
 			// 1. 문자열 검사
-			if (check(sb, map)) {
+			if (check(que)) {
 				answer++;
 			}
 
-			char ch = sb.charAt(0);
-			sb.deleteCharAt(0);
-			sb.append(ch);
+			// 2. 회전
+			que.offer(que.poll());
 		}
 
 		return answer;
 	}
 
-	static boolean check(StringBuilder sb, Map<Character, Character> map) {
+	static boolean check(Queue<Character> que) {
 		Stack<Character> st = new Stack<>();
 
-		for (int i = 0; i < sb.length(); i++) {
-			char ch = sb.charAt(i);
+		for (char ch : que) {
 
 			if (!map.containsKey(ch)) { // 여는 괄호라면
 				st.push(ch);
