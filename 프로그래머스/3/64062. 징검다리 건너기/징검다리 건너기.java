@@ -1,51 +1,31 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 class Solution {
     public int solution(int[] stones, int k) {
 
         // 1. 초기 세팅
-        int left = 0;
-        int right = 0;
-
-        for (int s : stones) {
-            right = Math.max(right, s);
-        }
-
-        int ans = 0;
+        Deque<Integer> deque = new ArrayDeque<>();
+        int ans = Integer.MAX_VALUE;
 
         // 2. 로직
-        while (left <= right) {
-            int mid = (left + right) / 2;
+        for (int i = 0; i < stones.length; i++) {
+            while (!deque.isEmpty() && stones[deque.peekLast()] <= stones[i]) {
+                deque.pollLast();
+            }
 
-            if (canCross(stones, k, mid)) {
-                ans = mid;
-                left = mid + 1;
-            } else {
-                right = mid - 1;
+            deque.addLast(i);
+
+            if (deque.peekFirst() <= i - k) {
+                deque.pollFirst();
+            }
+
+            if (i >= k - 1) {
+                ans = Math.min(ans, stones[deque.peekFirst()]);
             }
         }
 
         // 3. 반환
         return ans;
-    }
-
-    static boolean canCross(int[] stones, int k, int m) {
-        int cnt = 0;
-
-        for (int i = 0; i < stones.length; i++) {
-            if (stones[i] - m < 0) {
-                cnt++;
-                if (cnt >= k)
-                    return false;
-            } else {
-                cnt = 0;
-            }
-        }
-
-        return true;
     }
 }

@@ -1,10 +1,10 @@
 # [level 3] 징검다리 건너기 - 64062 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/64062?language=java) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/64062) 
 
 ### 성능 요약
 
-메모리: 64.7 MB, 시간: 32.05 ms
+메모리: 85.1 MB, 시간: 62.12 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2025년 10월 09일 00:54:07
+2025년 10월 09일 01:15:42
 
 ### 문제 설명
 
